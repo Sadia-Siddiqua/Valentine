@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tisa 💖 Tushar</title>
+
+  <style>
+    :root{
+      --bg1:#fff1f6;
+      --bg2:#ffe4ef;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --yes:#16a34a;
+      --no:#ef4444;
+      --shadow: 0 20px 50px rgba(0,0,0,.12);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, var(--bg1), transparent),
+        radial-gradient(1200px 600px at 90% 80%, var(--bg2), transparent),
+        linear-gradient(135deg, #fff, #fff);
+      padding:24px;
+    }
+
+    .card{
+      width:min(520px, 100%);
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
+      text-align:center;
+      position:relative;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fff0f6;
+      color:#be185d;
+      font-weight:600;
+      font-size:14px;
+      margin-bottom:14px;
+    }
+    .badge .dot{
+      width:10px;height:10px;border-radius:999px;background:#fb7185;
+      box-shadow:0 0 0 6px rgba(251,113,133,.15);
+    }
+
+    .hero{
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      object-fit:cover;
+      margin:0 auto 14px;
+      border:4px solid #ffe4ef;
+    }
+
+    h1{
+      font-size:26px;
+      margin:10px 0 6px;
+    }
+    p{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .note{
+      background:#fff5f8;
+      border-radius:14px;
+      padding:12px;
+      margin:14px 0;
+      font-size:14px;
+      color:#9d174d;
+    }
+
+    .tiny{
+      font-size:13px;
+      color:#6b7280;
+      margin-bottom:10px;
+    }
+
+    .arena{
+      position:relative;
+      height:120px;
+      width:100%;
+      border-radius:14px;
+      background: linear-gradient(180deg, #fff, #fff5f8);
+      border:1px dashed #fecdd3;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:12px;
+    }
+
+    .btn{
+      border:0;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,.12);
+    }
+
+    .yes{
+      background:#22c55e;
+      color:white;
+    }
+
+    .no{
+      background:#fff;
+      color:var(--no);
+      border:2px solid rgba(239,68,68,.25);
+      position:absolute;
+    }
+
+    .yesWrap{
+      position:absolute;
+      left:40%;
+      top:54%;
+      transform:translate(-50%,-50%);
+    }
+
+    .toast{
+      position:absolute;
+      bottom:12px;
+      background:#111827;
+      color:white;
+      padding:8px 12px;
+      border-radius:999px;
+      display:none;
+      font-size:13px;
+    }
+
+    .success{
+      display:none;
+      margin-top:16px;
+      padding:16px;
+      border-radius:16px;
+      background:#ecfdf5;
+      color:#065f46;
+      border:1px solid #bbf7d0;
+      font-size:15px;
+      line-height:1.6;
+    }
+
+    .footer{
+      margin-top:16px;
+      font-size:12px;
+      color:#9ca3af;
+    }
+  </style>
+</head>
+
+<body>
+<main class="card">
+
+  <div class="badge"><span class="dot"></span> Tisa 💖 Tushar</div>
+
+  <img class="hero"
+       src="https://i.imgur.com/2yaf2wb.jpeg"
+       alt="Love">
+
+  <h1>Hey Tushar… 🥺💖</h1>
+  <p>I made this just for you.</p>
+
+  <div class="note">
+    I don’t know how to say everything perfectly…<br>
+    but I really like you 🫶
+  </div>
+
+  <div class="tiny">
+    You make me smile without trying.<br>
+    You make my days brighter ✨
+  </div>
+
+  <h1>Will you be my valentine? 💌</h1>
+
+  <section class="arena" id="arena">
+    <div class="yesWrap">
+      <button class="btn yes" id="yesBtn">Yes, Tisa 💚</button>
+    </div>
+    <button class="btn no" id="noBtn">No 🙈</button>
+    <div class="toast" id="toast">Heyyy 😅</div>
+  </section>
+
+  <!-- UPDATED SUCCESS MESSAGE -->
+  <div class="success" id="success"></div>
+
+  <div class="footer">
+    Made with love by Tisa 💗
+  </div>
+
+</main>
+
+<script>
+  const arena = document.getElementById("arena");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const toast = document.getElementById("toast");
+  const success = document.getElementById("success");
+
+  function moveNo(){
+    const a = arena.getBoundingClientRect();
+    const b = noBtn.getBoundingClientRect();
+    const pad = 10;
+
+    const x = Math.random() * (a.width - b.width - pad);
+    const y = Math.random() * (a.height - b.height - pad);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    toast.style.display = "block";
+    setTimeout(()=>toast.style.display="none",700);
+  }
+
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("click", e => { e.preventDefault(); moveNo(); });
+
+  // ⭐ UPDATED YES BEHAVIOR ⭐
+  yesBtn.addEventListener("click", ()=>{
+    success.innerHTML = `
+      <strong>YAYYYY!! 😭💖</strong><br><br>
+
+      Tushar… you really said YES 🥺✨<br>
+      You have no idea how happy that makes me 💗<br><br>
+
+      <b>Now listen carefully 😌👇</b><br>
+      You have ONE job now —<br>
+      <b>Plan a cute date for us 🫶</b><br>
+      Pick the place 📍, the time ⏰,<br>
+      and surprise me 💐<br><br>
+
+      I’ll get ready…<br>
+      you just don’t be late 😄💖
+    `;
+
+    success.style.display = "block";
+    yesBtn.disabled = true;
+    noBtn.disabled = true;
+  });
+
+  noBtn.style.left="62%";
+  noBtn.style.top="54%";
+</script>
+</body>
+</html>
